@@ -41,12 +41,12 @@ public class Main {
         }
     }
 
-    private static void displayOptions() {
+    static void displayOptions() {
         String mainMenuText = "---------------------------------------------%nVelkommen til Pizzabiksen%n1: Se menukort%n2: Indtast bestilling%n3: Vis åbne bestillinger%n4: Fjern bestilling%n5: Udskriv dagens rapport%n6: Afslut program%n---------------------------------------------%n";
         System.out.printf(mainMenuText);
     }
 
-    private static void handleOption(int option, Menu menuKort) {
+    static void handleOption(int option, Menu menuKort) {
         switch (option) {
             case 1:
                 menuKort.displayMenu();
