@@ -23,6 +23,7 @@ public class Main {
         12. Le Blissoia: tomatsauce, ost, skinke, rejer, oregano
         13. Venezia: tomatsauce, ost, skinke, bacon, oregano
         14. Mafia: tomatsauce, ost, pepperoni, bacon, løg, oregano
+        15. Nørrebro: shawarma, kebab, dressing
         """;
         Menu menuKort = new Menu(menuTemp);
 
