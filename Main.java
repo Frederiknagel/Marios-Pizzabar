@@ -5,6 +5,8 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner console = new Scanner(System.in);
+        Pizza[] menu = createMenuArray();
+        displayMenuArray(menu);
 
         /* ****IO menukort ind her**** */
         String menuTemp = """
@@ -41,7 +43,13 @@ public class Main {
             }
         }
     }
+    private static Pizza[] createMenuArray() {
+        // PLACEHOLDER TEKST SÅ JEG KUNNE LAVE displayMenuArray
+        Pizza pizza1 = new Pizza(1, "Margherita", new String[]{"Tomat", "Mozzarella"}, 60.0);
+        Pizza pizza2 = new Pizza(2, "Pepperoni", new String[]{"Tomat", "Pepperoni", "Mozzarella"}, 70.0);
 
+        return new Pizza[]{pizza1, pizza2};
+    }
     static void displayOptions() {
         String mainMenuText = "---------------------------------------------%nVelkommen til Pizzabiksen%n1: Se menukort%n2: Indtast bestilling%n3: Vis åbne bestillinger%n4: Fjern bestilling%n5: Udskriv dagens rapport%n6: Afslut program%n---------------------------------------------%n";
         System.out.printf(mainMenuText);
@@ -71,6 +79,13 @@ public class Main {
             default:
                 System.out.println("Intet menupunkt valgt. Prøv igen.");
                 break;
+        }
+    }
+    private static void displayMenuArray(Pizza[] menu){
+        System.out.println("PizzaMenu:");
+        for (Pizza pizza: menu){
+            System.out.println(pizza );
+            System.out.println();
         }
     }
 }
