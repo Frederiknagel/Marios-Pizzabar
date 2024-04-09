@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Pizza {
     private int pizzaNummer;
     private String pizzaNavn;
