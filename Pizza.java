@@ -36,10 +36,15 @@ public class Pizza {
     public void setPizzaPris(double pizzaPris) {
         this.pizzaPris = pizzaPris;
     }
-    public String toString() {
-        return "Pizza Nummer: " + pizzaNummer +
+    /*public String toString() {
+        return "Nummer: " + pizzaNummer +
                 "\nNavn: " + pizzaNavn +
                 "\nIngredienser: " + Arrays.toString(pizzaIngredienser) +
-                "\nPris: " + pizzaPris + " kr";
+                "\nPris: " + pizzaPris + " kr";*/
+    public String toString() {
+        return "Nummer: " + pizzaNummer +
+                " Navn: " + pizzaNavn +
+                " Ingredienser: " + Arrays.toString(pizzaIngredienser) +
+                " Pris: " + pizzaPris + " kr";
     }
 }

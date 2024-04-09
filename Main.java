@@ -45,10 +45,23 @@ public class Main {
     }
     private static Pizza[] createMenuArray() {
         // PLACEHOLDER TEKST SÅ JEG KUNNE LAVE displayMenuArray
-        Pizza pizza1 = new Pizza(1, "Margherita", new String[]{"Tomat", "Mozzarella"}, 60.0);
-        Pizza pizza2 = new Pizza(2, "Pepperoni", new String[]{"Tomat", "Pepperoni", "Mozzarella"}, 70.0);
+        Pizza pizza1 = new Pizza(1, "Vesuvio", new String[]{"Tomat", "Mozzarella"}, 60.0);
+        Pizza pizza2 = new Pizza(2, "Amerikaner", new String[]{"Tomat", "Pepperoni", "Mozzarella"}, 70.0);
+        Pizza pizza3 = new Pizza(3, "Cacciatore", new String[]{"Tomat", "Mozzarella"}, 79);
+        Pizza pizza4 = new Pizza(4,"Carbona", new String[]{"Tomat", "Mozzarella"}, 70);
+        Pizza pizza5 = new Pizza(5,"Dennis", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza6 = new Pizza(6, "Bertil", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza7 = new Pizza(7, "Silvia", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza8 = new Pizza(8, "Victoria", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza9 = new Pizza(9, "Toronfo", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza10 = new Pizza(10, "Capricciosa", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza11 = new Pizza(11, "Hawaii", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza12 = new Pizza(12, "Le Blissoia", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza13 = new Pizza(13, "Venezia", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza14 = new Pizza(14, "Mafia", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza15 = new Pizza(15, "Nørrebro", new String[]{"Tomat", "Mozzarella"},70);
 
-        return new Pizza[]{pizza1, pizza2};
+        return new Pizza[]{pizza1, pizza3, pizza4, pizza5, pizza6, pizza7, pizza8, pizza9, pizza10, pizza11, pizza12, pizza13, pizza14};
     }
     static void displayOptions() {
         String mainMenuText = "---------------------------------------------%nVelkommen til Pizzabiksen%n1: Se menukort%n2: Indtast bestilling%n3: Vis åbne bestillinger%n4: Fjern bestilling%n5: Udskriv dagens rapport%n6: Afslut program%n---------------------------------------------%n";
