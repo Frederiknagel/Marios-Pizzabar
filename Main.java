@@ -88,5 +88,93 @@ public class Main {
             System.out.println();
         }
     }
+
+    public static Pizza[] addPizza(Scanner console, Pizza[] pizzaMenu){
+
+        // Får brugerinput til den nye pizza del 1
+        System.out.println("Tilføj en ny pizza.");
+        System.out.println("Indtast den nye pizzas nummer: ");
+        int pizzaNumber = console.nextInt();
+        System.out.println("Indtast den nye pizzas navn: ");
+        String pizzaName = console.next();
+        System.out.println("Indtast antal ingredienser: ");
+        int numberOfIngredients = console.nextInt();
+
+        // Nyt array som skal gemme ingredienserne
+        String[] ingredients = new String[numberOfIngredients];
+
+        // Får brugerinput til den nye pizza del 2 og gemmer i array'et
+        for (int j = 0; j < numberOfIngredients; j++){
+            System.out.println("Indtast ingrediens " + j+1 + ": ");
+            ingredients[j] = console.next();
+        }
+
+        // Får brugerinput til den nye pizza del 3
+        System.out.println("Indtast den nye pizzas pris: ");
+        double price = console.nextDouble();
+
+        // Laver en ny pizzaarray som er 1 længere end den eksisterende pizzaarray
+        Pizza[] newArray = new Pizza[pizzaMenu.length + 1];
+
+        // Kopierer indhold fra den eksisterende array ind i den nye array
+        for (int i = 0; i < pizzaMenu.length; i++){
+            newArray[i] = pizzaMenu[i];
+        }
+
+        // Tilføjer ny pizza til den nye array
+        newArray[pizzaMenu.length] = new Pizza(pizzaNumber, pizzaName, ingredients, price);
+
+        // Returnerer den nye pizzaArray/menukort
+        return newArray;
+    }
+
+    public static Pizza[] removePizza(Scanner console, Pizza[] pizzaMenu) {
+
+        // Viser menukort til bruger så han kan vælge hvad der skal fjernes
+        // Deaktiveret indtil videre da den metode ikke findes
+        //System.out.println("Der er følgende pizzaer på menuen:");
+        //displayMenuArray();
+
+        // Bruger vælger nr. på den pizza der skal fjernes
+        System.out.println("Tast nummer på den pizza du vil slette fra menuen.");
+        int pizzaNumber = console.nextInt();
+
+        // Bruger skal have mulighed for at fortryde sit valg
+        System.out.println("Er du sikker på at du vil slette pizza nr. " + pizzaNumber + "? j/n: ");
+        char confirmed = console.next().charAt(0);
+
+        // Hvis bruger bekræfter, skal pizzaen slettes
+        int deleteIndex = -1;
+        if (console.next().charAt(0) == 'j') {
+            for (int i = 0; i < pizzaMenu.length; i++) {
+                if (pizzaMenu[i].getPizzaNummer() == pizzaNumber) {
+                    deleteIndex = i;
+                    break;
+                } else System.out.println("Ingen pizza med dette nummer. Prøv igen.");
+                removePizza(console, pizzaMenu);
+            }
+
+            // Laver en ny pizzaarray som er 1 kortere end den eksisterende pizzaarray
+            Pizza[] newArray = new Pizza[pizzaMenu.length - 1];
+
+            // Kopierer indhold fra den eksisterende array ind i den nye array frem til deleteIndex
+            for (int i = 0; i < deleteIndex; i++) {
+                newArray[i] = pizzaMenu[i];
+            }
+            // Kopierer indhold fra den eksisterende array ind i den nye array efter deleteIndex
+            for (int i = deleteIndex; i < newArray.length; i++) {
+                newArray[i] = pizzaMenu[i + 1];
+            }
+            // Returnerer den nye pizzaArray/menukort
+            return newArray;
+        }
+
+        // Hvis ikke bruger bekræfter sletning, kaldes denne metode igen
+        // Måske vil vi hellere vil starte programmet forfra i denne situation
+        else {
+            removePizza(console, pizzaMenu);
+            return pizzaMenu;
+        }
+    }
 }
 
