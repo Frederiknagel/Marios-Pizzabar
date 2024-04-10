@@ -43,8 +43,8 @@ public class Pizza {
                 "\nPris: " + pizzaPris + " kr";*/
     public String toString() {
         return pizzaNummer +
-                ". " + pizzaNavn +
-                ": " + Arrays.toString(pizzaIngredienser) +
-                ", " + (int) pizzaPris + " kr";
+                "." + pizzaNavn +
+                ":" + Arrays.toString(pizzaIngredienser).replace("[", "").replace("]", "") +
+                ":" + (int) pizzaPris + " kr";
     }
 }

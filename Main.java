@@ -46,7 +46,7 @@ public class Main {
             while (fileConsole.hasNextLine()) {
                 data[i] = fileConsole.nextLine();
                 String[] pizzaStrings = data[i].split(":|\\.");
-                pizzaData[i] = new Pizza(Integer.parseInt(pizzaStrings[0]), pizzaStrings[1], pizzaStrings[2].split(","), (double)0);
+                pizzaData[i] = new Pizza(Integer.parseInt(pizzaStrings[0]), pizzaStrings[1].trim(), pizzaStrings[2].trim().split(","), Double.parseDouble(pizzaStrings[3].replace(" kr","")));
                 i++;
             }
             fileConsole.close();
@@ -58,13 +58,16 @@ public class Main {
         return pizzaListe;
     }
 
-    private static void saveToMenuArray(Pizza pizza){
+    private static void saveToMenuArray(Pizza[] pizzaArray){
         try {
-            FileWriter data = new FileWriter("menukort.txt", true);
-            data.write("\n");
-            data.write(pizza.toString());
+            FileWriter data = new FileWriter("menukort.txt");
+            for (int i = 0; i < pizzaArray.length; i++) {
+                data.write(pizzaArray[i].toString());
+                if (i<pizzaArray.length-1) {
+                    data.write("\n");
+                }
+            }
             data.close();
-            //data.write(pizza.toString());
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -160,7 +163,7 @@ public class Main {
         // Tilføjer ny pizza til den nye array
         newArray[pizzaMenu.length] = new Pizza(pizzaNumber, pizzaName, ingredients, price);
         // Marcus omskriver denne til opdateret metodes kald og parametre
-        saveToMenuArray(newArray[pizzaMenu.length]);
+        saveToMenuArray(newArray);
 
     }
 
@@ -176,7 +179,7 @@ public class Main {
 
         // Hvis bruger bekræfter, skal pizzaen slettes
         int deleteIndex = -1;
-        if (console.next().charAt(0) == 'j') {
+        if (confirmed == 'j') {
             for (int i = 0; i < pizzaMenu.length; i++) {
                 if (pizzaMenu[i].getPizzaNummer() == pizzaNumber) {
                     deleteIndex = i;
@@ -199,6 +202,7 @@ public class Main {
             for (int i = deleteIndex; i < newArray.length; i++) {
                 newArray[i] = pizzaMenu[i + 1];
             }
+            saveToMenuArray(newArray);
             // Gemmer opdateret menukort i TXT
             // Marcus kalder metode som skriver hele det nye menu-array til TXT
         }
