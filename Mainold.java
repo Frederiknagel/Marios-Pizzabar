@@ -163,7 +163,6 @@ public class Mainold {
         saveToMenuArray(newArray[pizzaMenu.length]);
 
         // Returnerer den nye pizzaArray/menukort
- 
         return newArray;
     }
 

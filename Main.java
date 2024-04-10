@@ -1,3 +1,6 @@
+import java.io.*;
+import java.io.IOException;
+import java.nio.file.*;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -17,6 +20,7 @@ public class Main {
 
             try {
                int option = console.nextInt();
+               menu = createMenuArray();
                handleOption(option, menu, console);
 
             } catch (Exception e) {
@@ -27,24 +31,43 @@ public class Main {
         }
     }
     private static Pizza[] createMenuArray() {
-        // PLACEHOLDER TEKST SÅ JEG KUNNE LAVE displayMenuArray
-        Pizza pizza1 = new Pizza(1, "Vesuvio", new String[]{"Tomatsauce", "Ost", "Skinke", "Oregano"}, 60.0);
-        Pizza pizza2 = new Pizza(2, "Amerikaner", new String[]{"Tomatsauce", "Ost", "Oksefars", "Oregano"}, 70.0);
-        Pizza pizza3 = new Pizza(3, "Cacciatore", new String[]{"Tomatsauce", "Ost", " Pepperoni", "Oregano"}, 79);
-        Pizza pizza4 = new Pizza(4,"Carbona", new String[]{"Tomatsauce", "Ost", "Spaghetti", "Cocktailpølser", "Oregano"}, 70);
-        Pizza pizza5 = new Pizza(5,"Dennis", new String[]{"Tomatsauce", "Ost", "Bacon","Oregano"},70);
-        Pizza pizza6 = new Pizza(6, "Bertil", new String[]{"Tomatsauce", "Ost","Pepperoni","Rød Peber","Løg", "Oliven", "Oregano"},70);
-        Pizza pizza7 = new Pizza(7, "Silvia", new String[]{"Tomatsauce", "Ost","Peppe", "Oregano"},70);
-        Pizza pizza8 = new Pizza(8, "Victoria", new String[]{"Tomatsauce", "Ost",""},70);
-        Pizza pizza9 = new Pizza(9, "Toronfo", new String[]{"Tomatsauce", "Ost",""},70);
-        Pizza pizza10 = new Pizza(10, "Capricciosa", new String[]{"Tomatsauce", "Ost",""},70);
-        Pizza pizza11 = new Pizza(11, "Hawaii", new String[]{"Tomatsauce", "Ost",""},70);
-        Pizza pizza12 = new Pizza(12, "Le Blissoia", new String[]{"Tomatsauce", "Ost",""},70);
-        Pizza pizza13 = new Pizza(13, "Venezia", new String[]{"Tomatsauce", "Ost",""},70);
-        Pizza pizza14 = new Pizza(14, "Mafia", new String[]{"Tomatsauce", "Ost",""},70);
-        Pizza pizza15 = new Pizza(15, "Nørrebro", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza[] pizzaListe = null;
 
-        return new Pizza[]{pizza1, pizza2, pizza3, pizza4, pizza5, pizza6, pizza7, pizza8, pizza9, pizza10, pizza11, pizza12, pizza13, pizza14, pizza15};
+        Path path = Paths.get("menukort.txt");
+        long lines;
+
+        try {
+            lines = Files.lines(path).count();
+            String[] data = new String[(int)lines];
+            Pizza[] pizzaData = new Pizza[(int)lines];
+            File file = new File("menukort.txt");
+            Scanner fileConsole = new Scanner(file);
+            int i = 0;
+            while (fileConsole.hasNextLine()) {
+                data[i] = fileConsole.nextLine();
+                String[] pizzaStrings = data[i].split(":|\\.");
+                pizzaData[i] = new Pizza(Integer.parseInt(pizzaStrings[0]), pizzaStrings[1], pizzaStrings[2].split(","), (double)0);
+                i++;
+            }
+            fileConsole.close();
+            pizzaListe = pizzaData;
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return pizzaListe;
+    }
+
+    private static void saveToMenuArray(Pizza pizza){
+        try {
+            FileWriter data = new FileWriter("menukort.txt", true);
+            data.write("\n");
+            data.write(pizza.toString());
+            data.close();
+            //data.write(pizza.toString());
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
     static void displayOptions() {
         System.out.println("---------------------------------------------");
@@ -60,19 +83,17 @@ public class Main {
         System.out.println("---------------------------------------------");
     }
 
-    static Pizza[] handleOption(int option, Pizza[] menu, Scanner console) {
+    static void handleOption(int option, Pizza[] menu, Scanner console) {
         switch (option) {
             case 1:
                 // Kalder metode som kalder toString for hver pizza i pizzamenuen
                 displayMenuArray(menu);
                 break;
             case 2:
-                Pizza[] newAddedArray = addPizza(console, menu);
-                menu = newAddedArray;
+                addPizza(console, menu);
                 break;
             case 3:
-                Pizza[] newRemovedArray = removePizza(console, menu);
-                menu = newRemovedArray;
+                removePizza(console, menu);
                 break;
             case 4:
                 //Indtast bestilling
@@ -94,7 +115,6 @@ public class Main {
                 System.out.println("Intet menupunkt valgt. Prøv igen.");
                 break;
         }
-        return menu;
     }
     private static void displayMenuArray(Pizza[] menu){
         System.out.println("PizzaMenu:");
@@ -104,13 +124,13 @@ public class Main {
         }
     }
 
-    public static Pizza[] addPizza(Scanner console, Pizza[] pizzaMenu){
+    public static void addPizza(Scanner console, Pizza[] pizzaMenu){
 
         // Får brugerinput til den nye pizza del 1
         System.out.println("Tilføj en ny pizza.");
         System.out.println("Indtast den nye pizzas nummer: ");
         int pizzaNumber = console.nextInt();
-        System.out.println("Indtast den nye pizzas navn: ");
+        System.out.println("Indtast den nye pizzas navn i ét ord: ");
         String pizzaName = console.next();
         System.out.println("Indtast antal ingredienser: ");
         int numberOfIngredients = console.nextInt();
@@ -139,20 +159,15 @@ public class Main {
 
         // Tilføjer ny pizza til den nye array
         newArray[pizzaMenu.length] = new Pizza(pizzaNumber, pizzaName, ingredients, price);
+        // Marcus omskriver denne til opdateret metodes kald og parametre
+        saveToMenuArray(newArray[pizzaMenu.length]);
 
-        // Returnerer den nye pizzaArray/menukort
-        return newArray;
     }
 
-    public static Pizza[] removePizza(Scanner console, Pizza[] pizzaMenu) {
-
-        // Viser menukort til bruger så han kan vælge hvad der skal fjernes
-        // Deaktiveret indtil videre da den metode ikke findes
-        //System.out.println("Der er følgende pizzaer på menuen:");
-        //displayMenuArray();
+    public static void removePizza(Scanner console, Pizza[] pizzaMenu) {
 
         // Bruger vælger nr. på den pizza der skal fjernes
-        System.out.println("Tast nummer på den pizza du vil slette fra menuen.");
+        System.out.println("Tast nummer på den pizza du vil slette fra menuen:");
         int pizzaNumber = console.nextInt();
 
         // Bruger skal have mulighed for at fortryde sit valg
@@ -184,15 +199,14 @@ public class Main {
             for (int i = deleteIndex; i < newArray.length; i++) {
                 newArray[i] = pizzaMenu[i + 1];
             }
-            // Returnerer den nye pizzaArray/menukort
-            return newArray;
+            // Gemmer opdateret menukort i TXT
+            // Marcus kalder metode som skriver hele det nye menu-array til TXT
         }
 
         // Hvis ikke bruger bekræfter sletning, kaldes denne metode igen
         // Måske vil vi hellere vil starte programmet forfra i denne situation
         else {
             removePizza(console, pizzaMenu);
-            return pizzaMenu;
         }
     }
 }
