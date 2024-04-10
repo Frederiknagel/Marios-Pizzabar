@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -6,35 +7,17 @@ public class Main {
 
         Scanner console = new Scanner(System.in);
         Pizza[] menu = createMenuArray();
-        displayMenuArray(menu);
+        // displayMenuArray(menu);
 
         /* ****IO menukort ind her**** */
-        String menuTemp = """
-        
-        1. Vesuvio: tomatsauce, ost, skinke, oregano
-        2. Amerikaner: tomatsauce, ost, oksefars, oregano
-        3. Cacciatore: tomatsauce, ost, pepperoni, oregano
-        4. Carbona: tomatsauce, ost, kødsauce, spaghetti, cocktailpølser, oregano
-        5. Dennis: tomatsauce, ost, skinke, pepperoni, cocktailpølser, oregano
-        6. Bertil: tomatsauce, ost, bacon, oregano
-        7. Silvia: tomatsauce, ost, pepperoni, rød peber, løg, oliven, oregano
-        8. Victoria: tomatsauce, ost, skinke, ananas, champignon, løg, oregano
-        9. Toronfo: tomatsauce, ost, skinke, bacon, kebab, chili, oregano
-        10. Capricciosa: tomatsauce, ost, skinke, champignon, oregano
-        11. Hawaii: tomatsauce, ost, skinke, ananas, oregano
-        12. Le Blissoia: tomatsauce, ost, skinke, rejer, oregano
-        13. Venezia: tomatsauce, ost, skinke, bacon, oregano
-        14. Mafia: tomatsauce, ost, pepperoni, bacon, løg, oregano
-        15. Nørrebro: shawarma, kebab, dressing
-        """;
-        Menu menuKort = new Menu(menuTemp);
+
 
         while(true) {
             displayOptions();
 
             try {
                int option = console.nextInt();
-               handleOption(option, menuKort);
+               handleOption(option, menu, console);
 
             } catch (Exception e) {
                 System.out.println("Intet menupunkt valgt. Prøv igen.");
@@ -45,59 +28,78 @@ public class Main {
     }
     private static Pizza[] createMenuArray() {
         // PLACEHOLDER TEKST SÅ JEG KUNNE LAVE displayMenuArray
-        Pizza pizza1 = new Pizza(1, "Vesuvio", new String[]{"Tomat", "Mozzarella"}, 60.0);
-        Pizza pizza2 = new Pizza(2, "Amerikaner", new String[]{"Tomat", "Pepperoni", "Mozzarella"}, 70.0);
-        Pizza pizza3 = new Pizza(3, "Cacciatore", new String[]{"Tomat", "Mozzarella"}, 79);
-        Pizza pizza4 = new Pizza(4,"Carbona", new String[]{"Tomat", "Mozzarella"}, 70);
-        Pizza pizza5 = new Pizza(5,"Dennis", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza6 = new Pizza(6, "Bertil", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza7 = new Pizza(7, "Silvia", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza8 = new Pizza(8, "Victoria", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza9 = new Pizza(9, "Toronfo", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza10 = new Pizza(10, "Capricciosa", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza11 = new Pizza(11, "Hawaii", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza12 = new Pizza(12, "Le Blissoia", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza13 = new Pizza(13, "Venezia", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza14 = new Pizza(14, "Mafia", new String[]{"Tomat", "Mozzarella"},70);
-        Pizza pizza15 = new Pizza(15, "Nørrebro", new String[]{"Tomat", "Mozzarella"},70);
+        Pizza pizza1 = new Pizza(1, "Vesuvio", new String[]{"Tomatsauce", "Ost", "Skinke", "Oregano"}, 60.0);
+        Pizza pizza2 = new Pizza(2, "Amerikaner", new String[]{"Tomatsauce", "Ost", "Oksefars", "Oregano"}, 70.0);
+        Pizza pizza3 = new Pizza(3, "Cacciatore", new String[]{"Tomatsauce", "Ost", " Pepperoni", "Oregano"}, 79);
+        Pizza pizza4 = new Pizza(4,"Carbona", new String[]{"Tomatsauce", "Ost", "Spaghetti", "Cocktailpølser", "Oregano"}, 70);
+        Pizza pizza5 = new Pizza(5,"Dennis", new String[]{"Tomatsauce", "Ost", "Bacon","Oregano"},70);
+        Pizza pizza6 = new Pizza(6, "Bertil", new String[]{"Tomatsauce", "Ost","Pepperoni","Rød Peber","Løg", "Oliven", "Oregano"},70);
+        Pizza pizza7 = new Pizza(7, "Silvia", new String[]{"Tomatsauce", "Ost","Peppe", "Oregano"},70);
+        Pizza pizza8 = new Pizza(8, "Victoria", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza pizza9 = new Pizza(9, "Toronfo", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza pizza10 = new Pizza(10, "Capricciosa", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza pizza11 = new Pizza(11, "Hawaii", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza pizza12 = new Pizza(12, "Le Blissoia", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza pizza13 = new Pizza(13, "Venezia", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza pizza14 = new Pizza(14, "Mafia", new String[]{"Tomatsauce", "Ost",""},70);
+        Pizza pizza15 = new Pizza(15, "Nørrebro", new String[]{"Tomatsauce", "Ost",""},70);
 
-        return new Pizza[]{pizza1, pizza3, pizza4, pizza5, pizza6, pizza7, pizza8, pizza9, pizza10, pizza11, pizza12, pizza13, pizza14};
+        return new Pizza[]{pizza1, pizza2, pizza3, pizza4, pizza5, pizza6, pizza7, pizza8, pizza9, pizza10, pizza11, pizza12, pizza13, pizza14, pizza15};
     }
     static void displayOptions() {
-        String mainMenuText = "---------------------------------------------%nVelkommen til Pizzabiksen%n1: Se menukort%n2: Indtast bestilling%n3: Vis åbne bestillinger%n4: Fjern bestilling%n5: Udskriv dagens rapport%n6: Afslut program%n---------------------------------------------%n";
-        System.out.printf(mainMenuText);
+        System.out.println("---------------------------------------------");
+        System.out.println("Velkommen til Mario's Pizzabar");
+        System.out.println("1: Se menukort");
+        System.out.println("2: Tilføj pizza til menukort");
+        System.out.println("3: Fjern pizza fra menukort");
+        System.out.println("4: Indtast bestilling");
+        System.out.println("5: Vis åbne bestillinger");
+        System.out.println("6. Annuller bestilling");
+        System.out.println("7. Udskriv dagens rapport");
+        System.out.println("8: Afslut program");
+        System.out.println("---------------------------------------------");
     }
 
-    static void handleOption(int option, Menu menuKort) {
+    static Pizza[] handleOption(int option, Pizza[] menu, Scanner console) {
         switch (option) {
             case 1:
-                menuKort.displayMenu();
+                // Kalder metode som kalder toString for hver pizza i pizzamenuen
+                displayMenuArray(menu);
                 break;
             case 2:
-                //Indtast bestilling
+                Pizza[] newAddedArray = addPizza(console, menu);
+                menu = newAddedArray;
                 break;
             case 3:
-                //Vis åbne bestillinger
+                Pizza[] newRemovedArray = removePizza(console, menu);
+                menu = newRemovedArray;
                 break;
             case 4:
-                //Fjern bestilling
+                //Indtast bestilling
                 break;
             case 5:
-                //Udskriv dagens rapport
+                //Vis åbne bestillinger
                 break;
             case 6:
-                /* ****Gem dagens rapport**** */ 
+                //Fjern bestilling
+                break;
+            case 7:
+                //Udskriv dagens rapport
+                break;
+            case 8:
+                /* ****Gem dagens rapport**** */
                 System.exit(0);
                 break;
             default:
                 System.out.println("Intet menupunkt valgt. Prøv igen.");
                 break;
         }
+        return menu;
     }
     private static void displayMenuArray(Pizza[] menu){
         System.out.println("PizzaMenu:");
         for (Pizza pizza: menu){
-            System.out.println(pizza );
+            System.out.println(pizza);
             System.out.println();
         }
     }
@@ -118,7 +120,8 @@ public class Main {
 
         // Får brugerinput til den nye pizza del 2 og gemmer i array'et
         for (int j = 0; j < numberOfIngredients; j++){
-            System.out.println("Indtast ingrediens " + j+1 + ": ");
+            int k = j + 1;
+            System.out.println("Indtast ingrediens " + k + ": ");
             ingredients[j] = console.next();
         }
 

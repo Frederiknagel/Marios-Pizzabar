@@ -42,9 +42,9 @@ public class Pizza {
                 "\nIngredienser: " + Arrays.toString(pizzaIngredienser) +
                 "\nPris: " + pizzaPris + " kr";*/
     public String toString() {
-        return "Nummer: " + pizzaNummer +
-                " Navn: " + pizzaNavn +
-                " Ingredienser: " + Arrays.toString(pizzaIngredienser) +
-                " Pris: " + pizzaPris + " kr";
+        return pizzaNummer +
+                ". " + pizzaNavn +
+                ": " + Arrays.toString(pizzaIngredienser) +
+                ", " + (int) pizzaPris + " kr";
     }
 }
