@@ -9,6 +9,9 @@ public class Pizza {
     public Pizza(int pizzaNummer, String pizzaNavn, String[] pizzaIngredienser, double pizzaPris) {
         this.pizzaNummer = pizzaNummer;
         this.pizzaNavn = pizzaNavn;
+        for (int i = 0; i < pizzaIngredienser.length; i++) {
+            pizzaIngredienser[i] = pizzaIngredienser[i].strip();
+        }
         this.pizzaIngredienser = pizzaIngredienser;
         this.pizzaPris = pizzaPris;
     }

@@ -46,7 +46,7 @@ public class Main {
             while (fileConsole.hasNextLine()) {
                 data[i] = fileConsole.nextLine();
                 String[] pizzaStrings = data[i].split(":|\\.");
-                pizzaData[i] = new Pizza(Integer.parseInt(pizzaStrings[0]), pizzaStrings[1].trim(), pizzaStrings[2].trim().split(","), Double.parseDouble(pizzaStrings[3].replace(" kr","")));
+                pizzaData[i] = new Pizza(Integer.parseInt(pizzaStrings[0]), pizzaStrings[1].trim(), pizzaStrings[2].split(","), Double.parseDouble(pizzaStrings[3].replace(" kr","")));
                 i++;
             }
             fileConsole.close();
