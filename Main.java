@@ -163,7 +163,10 @@ public class Main {
                 if (pizzaMenu[i].getPizzaNummer() == pizzaNumber) {
                     deleteIndex = i;
                     break;
-                } else System.out.println("Ingen pizza med dette nummer. Prøv igen.");
+                }
+            }
+            if (deleteIndex == -1){
+                System.out.println("Ingen pizza med dette nummer. Prøv igen.");
                 removePizza(console, pizzaMenu);
             }
 
