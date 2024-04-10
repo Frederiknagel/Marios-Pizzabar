@@ -2,6 +2,7 @@ import java.io.*;
 import java.io.IOException;
 import java.nio.file.*;
 import java.sql.SQLOutput;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -13,6 +14,7 @@ public class Main {
         // displayMenuArray(menu);
 
         /* ****IO menukort ind her**** */
+        displayMenuArray(menu);
 
 
         while(true) {
@@ -57,6 +59,31 @@ public class Main {
         }
         return pizzaListe;
     }
+       private static Ordre[] createOrderArray(Scanner console){
+            Ordre[] ordreArray = null;
+
+            Path path = Paths.get("Ordreliste.txt");
+            long lines;
+            try {
+                lines = Files.lines(path).count();
+                String[] data = new String[(int)lines];
+                Ordre[] ordreData = new Ordre[(int) lines];
+                File file = new File("Ordreliste.txt");
+                Scanner fileConsole = new Scanner(file);
+                int i = 0;
+                while (fileConsole.hasNextLine()) {
+                    data[i] = fileConsole.nextLine();
+                    String[] ordreStrings = data[i].split(":");
+                    ordreData[i] = new Ordre(Integer.parseInt(ordreStrings[0]), (ordreStrings[1]), (double)2, (Date)[3],(boolean[4]);
+                    i++;
+                    // JEG VED IKKE HVORDAN JEG INDSKRIVER BOOLEAN I ordreArray
+                }
+                ordreArray = ordreData;
+            }   catch(IOException e){
+                System.out.println(e);
+           }
+            return ordreArray;
+       }
 
     private static void saveToMenuArray(Pizza pizza){
         try {
@@ -97,6 +124,7 @@ public class Main {
                 break;
             case 4:
                 //Indtast bestilling
+                createOrderArray(console);
                 break;
             case 5:
                 //Vis åbne bestillinger
