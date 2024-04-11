@@ -1,19 +1,20 @@
 import java.util.Date;
 
 public class Ordre {
+    int ordreNummer;
 
-
-    String [] bestiltePizzaer;
+    String bestiltePizzaer;
 
     String note;
 
-    double pris;
+    int pris;
 
-    Date afhentTid;
-    boolean ready;
+    int afhentTid;
+    String ready;
 
-    public Ordre(String [] bestiltePizzaer, String note, double pris, Date afhentTid, boolean ready){
+    public Ordre(int ordreNummer, String bestiltePizzaer, String note, int pris, int afhentTid, String ready){
 
+        this.ordreNummer = ordreNummer;
         this.bestiltePizzaer = bestiltePizzaer;
         this.note = note;
         this.pris = pris;
@@ -22,16 +23,20 @@ public class Ordre {
     }
 
     public String toString() {
-        return("Ordre:\nbestiltePizzaer " +bestiltePizzaer + "\nnote:" +note+ "\npris: "+ pris+ "\nafhentningstidspunk: "+ afhentTid + "\nready: "+ ready);
+        return("Ordre " + ordreNummer + " :\nBestilling: " + bestiltePizzaer + "\nNote: " +note+ "\nPris: "+ pris+ "\nAfhentningstidspunkt: "+ afhentTid);
 
     }
 
-    public void setReady(boolean ready){
+    public int getOrdreNummer(){
+        return this.ordreNummer;
+    }
+
+    public void setReady(String ready){
         this.ready = ready;
     }
 
-    public boolean getReady() {
-        return ready;
+    public String getReady() {
+        return this.ready;
     }
 
 }

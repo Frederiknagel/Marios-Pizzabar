@@ -3,18 +3,18 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.sql.SQLOutput;
 import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     
     public static void main(String[] args) {
 
         Scanner console = new Scanner(System.in);
-        Pizza[] menu = createMenuArray();
-        // displayMenuArray(menu);
+        Pizza[] menu;
+        Ordre[] ordreArray;
 
         /* ****IO menukort ind her**** */
-        displayMenuArray(menu);
+        //displayMenuArray(menu);
 
 
         while(true) {
@@ -23,7 +23,8 @@ public class Main {
             try {
                int option = console.nextInt();
                menu = createMenuArray();
-               handleOption(option, menu, console);
+               ordreArray = createOrderArray();
+               handleOption(option, menu, console, ordreArray);
 
             } catch (Exception e) {
                 System.out.println("Intet menupunkt valgt. Prøv igen.");
@@ -32,7 +33,7 @@ public class Main {
             }
         }
     }
-    private static Pizza[] createMenuArray() {
+    public static Pizza[] createMenuArray() {
         Pizza[] pizzaListe = null;
 
         Path path = Paths.get("menukort.txt");
@@ -59,7 +60,8 @@ public class Main {
         }
         return pizzaListe;
     }
-       private static Ordre[] createOrderArray(Scanner console){
+
+    public static Ordre[] createOrderArray(){
             Ordre[] ordreArray = null;
 
             Path path = Paths.get("Ordreliste.txt");
@@ -74,18 +76,19 @@ public class Main {
                 while (fileConsole.hasNextLine()) {
                     data[i] = fileConsole.nextLine();
                     String[] ordreStrings = data[i].split(":");
-                    ordreData[i] = new Ordre(Integer.parseInt(ordreStrings[0]), (ordreStrings[1]), (double)2, (Date)[3],(boolean[4]);
+                    ordreData[i] = new Ordre(Integer.parseInt(ordreStrings[0]), (ordreStrings[1]), (ordreStrings[2]), Integer.parseInt(ordreStrings[3]), Integer.parseInt(ordreStrings[4]), (ordreStrings[5]));
                     i++;
-                    // JEG VED IKKE HVORDAN JEG INDSKRIVER BOOLEAN I ordreArray
                 }
                 ordreArray = ordreData;
+
             }   catch(IOException e){
                 System.out.println(e);
            }
-            return ordreArray;
+        return ordreArray;
        }
 
-    private static void saveToMenuArray(Pizza[] pizzaArray){
+
+    public static void saveToMenuArray(Pizza[] pizzaArray){
         try {
             FileWriter data = new FileWriter("menukort.txt");
             for (int i = 0; i < pizzaArray.length; i++) {
@@ -99,21 +102,21 @@ public class Main {
             System.out.println(e);
         }
     }
-    static void displayOptions() {
+    public static void displayOptions() {
         System.out.println("---------------------------------------------");
         System.out.println("Velkommen til Mario's Pizzabar");
         System.out.println("1: Se menukort");
         System.out.println("2: Tilføj pizza til menukort");
         System.out.println("3: Fjern pizza fra menukort");
-        System.out.println("4: Indtast bestilling");
-        System.out.println("5: Vis åbne bestillinger");
-        System.out.println("6. Annuller bestilling");
+        System.out.println("4: Indtast ordre");
+        System.out.println("5: Vis åbne ordrer");
+        System.out.println("6. Afslut ordre");
         System.out.println("7. Udskriv dagens rapport");
         System.out.println("8: Afslut program");
         System.out.println("---------------------------------------------");
     }
 
-    static void handleOption(int option, Pizza[] menu, Scanner console) {
+    public static void handleOption(int option, Pizza[] menu, Scanner console, Ordre[] ordreArray) {
         switch (option) {
             case 1:
                 // Kalder metode som kalder toString for hver pizza i pizzamenuen
@@ -126,14 +129,14 @@ public class Main {
                 removePizza(console, menu);
                 break;
             case 4:
-                //Indtast bestilling
-                createOrderArray(console);
+                //Indtast ordre
                 break;
             case 5:
-                //Vis åbne bestillinger
+                //Vis åbne ordrer
+                displayOpenOrders(ordreArray);
                 break;
             case 6:
-                //Fjern bestilling
+                //Afslut ordre
                 break;
             case 7:
                 //Udskriv dagens rapport
@@ -147,7 +150,7 @@ public class Main {
                 break;
         }
     }
-    private static void displayMenuArray(Pizza[] menu){
+    public static void displayMenuArray(Pizza[] menu){
         System.out.println("PizzaMenu:");
         for (Pizza pizza: menu){
             System.out.println(pizza);
@@ -230,15 +233,40 @@ public class Main {
             for (int i = deleteIndex; i < newArray.length; i++) {
                 newArray[i] = pizzaMenu[i + 1];
             }
-            saveToMenuArray(newArray);
             // Gemmer opdateret menukort i TXT
-            // Marcus kalder metode som skriver hele det nye menu-array til TXT
+            saveToMenuArray(newArray);
         }
 
         // Hvis ikke bruger bekræfter sletning, kaldes denne metode igen
         // Måske vil vi hellere vil starte programmet forfra i denne situation
         else {
             removePizza(console, pizzaMenu);
+        }
+    }
+
+    public static void displayOpenOrders(Ordre[] orderArray){
+        System.out.println("Åbne ordrer:\n");
+        int openorders = 0;
+        for (int i = 0; i < orderArray.length; i++){
+            if (Objects.equals(orderArray[i].ready, "nej")){
+                openorders++;
+            }
+        }
+        Ordre[] openOrderArray = new Ordre[openorders];
+        int k = 0;
+        for (int i = 0; i < orderArray.length; i++){
+
+            if (Objects.equals(orderArray[i].ready, "nej")){
+                openOrderArray[k] = orderArray[i];
+                k++;
+            }
+        }
+
+        //System.out.println(Arrays.toString(orderArray));
+
+        for (Ordre order: openOrderArray){
+            System.out.println(order);
+            System.out.println();
         }
     }
 }
