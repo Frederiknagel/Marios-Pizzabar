@@ -25,6 +25,10 @@ public class Ordre {
 
     }
 
+    public String toNewString() {
+        return(ordreNummer + ":" + bestiltePizzaer + ":" + note + ":" + pris + ":" + afhentTid + ":" + ready);
+    }
+
     public int getOrdreNummer(){
         return this.ordreNummer;
     }
@@ -38,3 +42,4 @@ public class Ordre {
     }
 
 }
+

@@ -267,15 +267,18 @@ public class Main {
         System.out.println("Indtast total pris: ");
         int pris = console.nextInt();
 
-        // skal saveallOrders() funktionen ikke bruges til at gemme ordrene i txt?
-
         Ordre newOrder = new Ordre(ordreNummer, bestiltePizzaer, note, pris, afhentTid, "nej");
 
-        Ordre[] testArray = new Ordre[]{newOrder};
-        displayOpenOrders(testArray);
-        
-        //saveallOrders(newOrder);
+        // Laver en ny orderarray som er 1 længere end den eksisterende orderarray
+        Ordre[] newArray = new Ordre[orderList.length + 1];
 
+
+        // Kopierer indhold fra den eksisterende array ind i den nye array
+        for (int i = 0; i < orderList.length; i++){
+            newArray[i] = orderList[i];
+        }
+        saveAllOrders(newArray);
+        System.out.println(Arrays.toString(newArray));
         System.out.println("Order added successfully.");
     }
 
@@ -317,6 +320,20 @@ public class Main {
         // Måske vil vi hellere vil starte programmet forfra i denne situation
        
     }
+    public static void saveAllOrders(Ordre[] orderArray){
+        try {
+            FileWriter data = new FileWriter("Ordreliste.txt");
+            for (int i = 0; i < orderArray.length; i++) {
+                data.write(orderArray[i].toNewString());
+                if (i<orderArray.length-1) {
+                    data.write("\n");
+                }
+            }
+            data.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+    }
 
     public static void displayOpenOrders(Ordre[] orderArray){
         System.out.println("Åbne ordrer:\n");
@@ -336,7 +353,7 @@ public class Main {
             }
         }
 
-        //System.out.println(Arrays.toString(orderArray));
+
 
         for (Ordre order: openOrderArray){
             System.out.println(order);
