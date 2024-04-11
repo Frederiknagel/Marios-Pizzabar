@@ -140,6 +140,7 @@ public class Main {
                 break;
             case 7:
                 //Udskriv dagens rapport
+                doStats(ordreArray);
                 break;
             case 8:
                 /* ****Gem dagens rapport**** */
@@ -261,13 +262,14 @@ public class Main {
         String note = console.next();
         note += console.nextLine();
 
-        System.out.println("Indtast afhentingstidspunk: ");
+        System.out.println("Indtast afhentningstidspunkt: ");
         int afhentTid = console.nextInt();
 
         System.out.println("Indtast total pris: ");
         int pris = console.nextInt();
 
         Ordre newOrder = new Ordre(ordreNummer, bestiltePizzaer, note, pris, afhentTid, "nej");
+
 
         // Laver en ny orderarray som er 1 længere end den eksisterende orderarray
         Ordre[] newArray = new Ordre[orderList.length + 1];
@@ -277,8 +279,9 @@ public class Main {
         for (int i = 0; i < orderList.length; i++){
             newArray[i] = orderList[i];
         }
+        newArray[newArray.length-1] = newOrder;
+
         saveAllOrders(newArray);
-        System.out.println(Arrays.toString(newArray));
         System.out.println("Order added successfully.");
     }
 
@@ -310,7 +313,7 @@ public class Main {
                 
             }
 
-            //saveallOrders(newArray);
+            saveAllOrders(orderList);
             
             // Gemmer opdateret menukort i TXT
             // Marcus kalder metode som skriver hele det nye menu-array til TXT
@@ -359,6 +362,24 @@ public class Main {
             System.out.println(order);
             System.out.println();
         }
+    }
+
+    private static void doStats(Ordre[] orderArray){
+
+        int sumPrice = 0;
+        int cnt = 0;
+
+
+        for (int i = 0; i < orderArray.length; i++) {
+            sumPrice += orderArray[i].getPrice();
+            System.out.println(orderArray[i].toString());
+            System.out.println("\n");
+            cnt++;
+        }
+
+        System.out.println("Dagens omsætning: "+ sumPrice + " kr");
+        System.out.println("Gennemsnitlig ordrepris: " + (double)sumPrice/(double)cnt + " kr");
+
     }
 }
 

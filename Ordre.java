@@ -41,5 +41,9 @@ public class Ordre {
         return this.ready;
     }
 
+    public int getPrice(){
+        return this.pris;
+    }
+
 }
 
