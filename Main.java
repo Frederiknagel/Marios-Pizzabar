@@ -1,8 +1,5 @@
 import java.io.*;
-import java.io.IOException;
 import java.nio.file.*;
-import java.sql.SQLOutput;
-import java.util.Date;
 import java.util.*;
 
 public class Main {
@@ -76,9 +73,10 @@ public class Main {
                 while (fileConsole.hasNextLine()) {
                     data[i] = fileConsole.nextLine();
                     String[] ordreStrings = data[i].split(":");
-                    ordreData[i] = new Ordre(Integer.parseInt(ordreStrings[0]), (ordreStrings[1]), (ordreStrings[2]), Integer.parseInt(ordreStrings[3]), Integer.parseInt(ordreStrings[4]), (ordreStrings[5]));
+                    ordreData[i] = new Ordre(Integer.parseInt(ordreStrings[0]), (ordreStrings[1]), (ordreStrings[2]), Integer.parseInt(ordreStrings[3]), Integer.parseInt(ordreStrings[4]), ordreStrings[5]);
                     i++;
                 }
+                fileConsole.close();
                 ordreArray = ordreData;
 
             }   catch(IOException e){
@@ -130,6 +128,7 @@ public class Main {
                 break;
             case 4:
                 //Indtast ordre
+                addOrder(console, ordreArray);
                 break;
             case 5:
                 //Vis åbne ordrer
@@ -137,6 +136,7 @@ public class Main {
                 break;
             case 6:
                 //Afslut ordre
+                removeOrder(console, ordreArray);
                 break;
             case 7:
                 //Udskriv dagens rapport
@@ -242,6 +242,80 @@ public class Main {
         else {
             removePizza(console, pizzaMenu);
         }
+    }
+
+    private static void addOrder(Scanner console, Ordre[] orderList){
+        System.out.println("Indtast detaljer for den nye ordre: ");
+
+       // System.out.println("Indtast liste på de bestilte pizzaer: ");
+        // String bestiltePizzaer = console.nextLine();
+        // for loop to match order with pizzas from pizza menu
+        System.out.println("Indtast ordrenummer: ");
+        int ordreNummer = console.nextInt();
+        
+        System.out.println("Indtast pizzaer: ");
+        String bestiltePizzaer = console.next();
+        bestiltePizzaer += console.nextLine();
+
+        System.out.println("Indtast note: ");
+        String note = console.next();
+        note += console.nextLine();
+
+        System.out.println("Indtast afhentingstidspunk: ");
+        int afhentTid = console.nextInt();
+
+        System.out.println("Indtast total pris: ");
+        int pris = console.nextInt();
+
+        // skal saveallOrders() funktionen ikke bruges til at gemme ordrene i txt?
+
+        Ordre newOrder = new Ordre(ordreNummer, bestiltePizzaer, note, pris, afhentTid, "nej");
+
+        Ordre[] testArray = new Ordre[]{newOrder};
+        displayOpenOrders(testArray);
+        
+        //saveallOrders(newOrder);
+
+        System.out.println("Order added successfully.");
+    }
+
+    private static void removeOrder(Scanner console, Ordre [] orderList){
+
+        System.out.println("Hvilken order skal fjernes? Indtast ordrenummer: ");
+        int orderNo = console.nextInt();
+
+        // Bruger skal have mulighed for at fortryde sit valg
+        System.out.println("Er du sikker på at du vil slette order nr. " + orderNo + "? j/n: ");
+        char confirmed = console.next().charAt(0);
+
+        // Hvis bruger bekræfter, skal ordren slettes
+        int deleteIndex = -1;
+        if (confirmed == 'j') {
+            for (int i = 0; i < orderList.length; i++) {
+                if (orderList[i].getOrdreNummer() == orderNo) {
+                    deleteIndex = i;
+                    break;
+                }
+            }
+            if (deleteIndex != -1){
+                orderList[deleteIndex].setReady("ja");
+                System.out.println("Ordre "+orderNo+" er afsluttet");
+                
+            }
+            else{
+                System.out.println("Ingen order med dette nummer. Prøv igen.");
+                
+            }
+
+            //saveallOrders(newArray);
+            
+            // Gemmer opdateret menukort i TXT
+            // Marcus kalder metode som skriver hele det nye menu-array til TXT
+        }
+
+        // Hvis ikke bruger bekræfter sletning, kaldes denne metode igen
+        // Måske vil vi hellere vil starte programmet forfra i denne situation
+       
     }
 
     public static void displayOpenOrders(Ordre[] orderArray){
