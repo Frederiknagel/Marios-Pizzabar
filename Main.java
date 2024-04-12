@@ -10,10 +10,7 @@ public class Main {
         Pizza[] menu;
         Ordre[] ordreArray;
 
-        /* ****IO menukort ind her**** */
-        //displayMenuArray(menu);
-
-
+        //Main loop
         while(true) {
             displayOptions();
 
@@ -30,6 +27,8 @@ public class Main {
             }
         }
     }
+
+    //Opret menukort array, udfra txt fil
     public static Pizza[] createMenuArray() {
         Pizza[] pizzaListe = null;
 
@@ -58,6 +57,7 @@ public class Main {
         return pizzaListe;
     }
 
+    //Opret ordre array, udfra txt fil
     public static Ordre[] createOrderArray(){
             Ordre[] ordreArray = null;
 
@@ -85,8 +85,8 @@ public class Main {
         return ordreArray;
        }
 
-
-    public static void saveToMenuArray(Pizza[] pizzaArray){
+    //Gem menukort i txt fil
+    public static void saveMenuArray(Pizza[] pizzaArray){
         try {
             FileWriter data = new FileWriter("menukort.txt");
             for (int i = 0; i < pizzaArray.length; i++) {
@@ -100,6 +100,8 @@ public class Main {
             System.out.println(e);
         }
     }
+
+    //Print hovedmenu i terminal
     public static void displayOptions() {
         System.out.println("---------------------------------------------");
         System.out.println("Velkommen til Mario's Pizzabar");
@@ -114,6 +116,7 @@ public class Main {
         System.out.println("---------------------------------------------");
     }
 
+    //Vælger handling i hovedmenu
     public static void handleOption(int option, Pizza[] menu, Scanner console, Ordre[] ordreArray) {
         switch (option) {
             case 1:
@@ -121,9 +124,11 @@ public class Main {
                 displayMenuArray(menu);
                 break;
             case 2:
+                //Tilføj Pizza
                 addPizza(console, menu);
                 break;
             case 3:
+                //Fjern Pizza
                 removePizza(console, menu);
                 break;
             case 4:
@@ -151,6 +156,8 @@ public class Main {
                 break;
         }
     }
+
+    //Printer menukort
     public static void displayMenuArray(Pizza[] menu){
         System.out.println("PizzaMenu:");
         for (Pizza pizza: menu){
@@ -159,6 +166,7 @@ public class Main {
         }
     }
 
+    //Tilføj pizza til menukort
     public static void addPizza(Scanner console, Pizza[] pizzaMenu){
 
         // Får brugerinput til den nye pizza del 1
@@ -194,11 +202,12 @@ public class Main {
 
         // Tilføjer ny pizza til den nye array
         newArray[pizzaMenu.length] = new Pizza(pizzaNumber, pizzaName, ingredients, price);
-        // Marcus omskriver denne til opdateret metodes kald og parametre
-        saveToMenuArray(newArray);
+        //Gemmer til txt fil
+        saveMenuArray(newArray);
 
     }
 
+    //Fjern pizza fra menukort
     public static void removePizza(Scanner console, Pizza[] pizzaMenu) {
 
         // Bruger vælger nr. på den pizza der skal fjernes
@@ -235,7 +244,7 @@ public class Main {
                 newArray[i] = pizzaMenu[i + 1];
             }
             // Gemmer opdateret menukort i TXT
-            saveToMenuArray(newArray);
+            saveMenuArray(newArray);
         }
 
         // Hvis ikke bruger bekræfter sletning, kaldes denne metode igen
@@ -245,12 +254,9 @@ public class Main {
         }
     }
 
+    //Tilføj ordre til ordreliste
     private static void addOrder(Scanner console, Ordre[] orderList){
         System.out.println("Indtast detaljer for den nye ordre: ");
-
-       // System.out.println("Indtast liste på de bestilte pizzaer: ");
-        // String bestiltePizzaer = console.nextLine();
-        // for loop to match order with pizzas from pizza menu
         System.out.println("Indtast ordrenummer: ");
         int ordreNummer = console.nextInt();
         
@@ -285,6 +291,7 @@ public class Main {
         System.out.println("Order added successfully.");
     }
 
+    //Sæt order som afhentet/afsluttet
     private static void removeOrder(Scanner console, Ordre [] orderList){
 
         System.out.println("Hvilken order skal fjernes? Indtast ordrenummer: ");
@@ -313,16 +320,13 @@ public class Main {
                 
             }
 
+            //Gemmer til txt fil
             saveAllOrders(orderList);
             
-            // Gemmer opdateret menukort i TXT
-            // Marcus kalder metode som skriver hele det nye menu-array til TXT
-        }
-
-        // Hvis ikke bruger bekræfter sletning, kaldes denne metode igen
-        // Måske vil vi hellere vil starte programmet forfra i denne situation
-       
+        }       
     }
+
+    //Gem ordrer til txt fil 
     public static void saveAllOrders(Ordre[] orderArray){
         try {
             FileWriter data = new FileWriter("Ordreliste.txt");
@@ -338,6 +342,7 @@ public class Main {
         }
     }
 
+    //Print alle åbne ordre
     public static void displayOpenOrders(Ordre[] orderArray){
         System.out.println("Åbne ordrer:\n");
         int openorders = 0;
@@ -356,14 +361,13 @@ public class Main {
             }
         }
 
-
-
         for (Ordre order: openOrderArray){
             System.out.println(order);
             System.out.println();
         }
     }
 
+    //Print statestik om ordre
     private static void doStats(Ordre[] orderArray){
 
         int sumPrice = 0;
