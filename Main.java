@@ -73,7 +73,7 @@ public class Main {
                 while (fileConsole.hasNextLine()) {
                     data[i] = fileConsole.nextLine();
                     String[] ordreStrings = data[i].split(":");
-                    ordreData[i] = new Ordre(Integer.parseInt(ordreStrings[0]), (ordreStrings[1]), (ordreStrings[2]), Integer.parseInt(ordreStrings[3]), Integer.parseInt(ordreStrings[4]), ordreStrings[5]);
+                    ordreData[i] = new Ordre(Integer.parseInt(ordreStrings[0]), ordreStrings[1], ordreStrings[2], Integer.parseInt(ordreStrings[3]), Integer.parseInt(ordreStrings[4]), ordreStrings[5]);
                     i++;
                 }
                 fileConsole.close();
